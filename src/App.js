@@ -7,10 +7,12 @@ import NewsComponent from './components/NewsComponent';
 export default class App extends Component {
   render() {
     return (
-      <div className='container'>
+      <>
       <Navbar/>
+      <div className='container'>
       <NewsComponent/>
       </div>
+      </>
     )
   }
 }

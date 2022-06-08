@@ -1,82 +1,87 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import NewsItem from './NewsItem'
+import Spinner from './Spinner';
 
 export default class NewsComponent extends Component {
-     articles=[
-        {
-            "source": {
-                "id": "medical-news-today",
-                "name": "Medical News Today"
-            },
-            "author": "Katharine Lang",
-            "title": "Are humans 'wired' to hate, and if so, why?",
-            "description": "Are humans 'set up' to hate, and if so why? In this feature, we investigate the neuroscience and psychology of hate, and potential ways to prevent it.",
-            "url": "http://www.medicalnewstoday.com/articles/are-humans-wired-to-hate-and-if-so-why",
-            "urlToImage": "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2022/05/thumbs-down-shadow-hate-thumb.jpg",
-            "publishedAt": "2022-05-30T16:20:00Z",
-            "content": "Hate is a powerful negative emotion, but a word that is easy to say. For example, many of us profess to hate public figures, such as politicians. One has only to browse social media to find declarati… [+8039 chars]"
-        },
-        {
-            "source": {
-                "id": "hacker-news",
-                "name": "Hacker News"
-            },
-            "author": null,
-            "title": "bigscience/T0pp · Hugging Face",
-            "description": "We’re on a journey to advance and democratize artificial intelligence through open source and open science.",
-            "url": "https://huggingface.co/bigscience/T0pp",
-            "urlToImage": "https://huggingface.co/front/thumbnails/v2-2.png",
-            "publishedAt": "2021-10-18T16:37:20.4140551Z",
-            "content": "Model Description\r\nT0* is a series of encoder-decoder models trained on a large set of different tasks specified in natural language prompts. We convert numerous English supervised datasets into prom… [+11344 chars]"
-        },
-        {
-            "source": {
-                "id": "hacker-news",
-                "name": "Hacker News"
-            },
-            "author": null,
-            "title": "Opening up a physics simulator for robotics",
-            "description": "As part of DeepMind's mission of advancing science, we have acquired the MuJoCo physics simulator and are making it freely available for everyone, to support research everywhere.",
-            "url": "https://deepmind.com/blog/announcements/mujoco",
-            "urlToImage": "https://lh3.googleusercontent.com/jVZ3VN7wwx2dSowqLmhqm0qAzAmcb-1t7ks3HiNnoHknihF5sl9VDEwuCNTSxfx8jFIi7mBQkvHUdnSKXSPgYLNpvCuE4YajJeMnrYA",
-            "publishedAt": "2021-10-18T16:07:20.4749314Z",
-            "content": "Advancing research everywhere with the acquisition of MuJoCo\r\nWhen you walk, your feet make contact with the ground. When you write, your fingers make contact with the pen. Physical contacts are what… [+1849 chars]"
-        },
-        {
-            "source": {
-                "id": "national-geographic",
-                "name": "National Geographic"
-            },
-            "author": "Nadia Drake",
-            "title": "How these feuding map-makers shaped our fascination with Mars",
-            "description": "One was an artist who loved space. His rival was a bold professional astronomer. Their race to map the red planet sparked decades of science and speculation.",
-            "url": "https://www.nationalgeographic.com/science/2021/02/how-feuding-map-makers-shaped-our-fascination-with-mars.html",
-            "urlToImage": "https://pmdvod.nationalgeographic.com/NG_Video/788/579/smpost_1612381336455.jpg",
-            "publishedAt": "2021-02-17T14:37:21.3706142Z",
-            "content": null
-        }
-    ]
 
-    constructor(){
-        super();
-        this.state={
-          articles : this.articles
+    static propTypes={
+        pageSize : PropTypes.number,
+        category : PropTypes.string
+    }
+
+    static defaultProps={
+        pageNum : 5,
+        category : ''
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            articles: [],
+            loading: false,
+            pageNum: 1
+
         }
     }
+
+    updateNews = async ()=>{
+        let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=90bd313746614e5ab3e4e719901420cb&category=${this.props.category}&pageSize=${this.props.pageSize}&page=${this.state.pageNum}`;
+        this.setState({ loading: true })
+        let data = await fetch(url);
+        let parseData = await data.json();
+        this.setState({
+            articles: parseData.articles,
+            totalResults: parseData.totalResults,
+            loading: false
+        });
+    }
+
+    async componentDidMount() {
+        this.updateNews();
+    }
+    
+    handlePrevClick = async () => {
+
+        // let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=90bd313746614e5ab3e4e719901420cb&category=${this.props.category}&pageSize=${this.props.pageSize}&page=${this.state.pageNum - 1}`;
+        // this.setState({ loading: true })
+        // let data = await fetch(url);
+        // let parseData = await data.json();
+        // this.setState({
+        //     articles: parseData.articles,
+        //     pageNum: this.state.pageNum - 1,
+        //     loading: false
+        // });
+        await this.setState({pageNum: this.state.pageNum - 1});
+        this.updateNews();
+    }
+
+    handleNextClick =async() => {
+        await this.setState({pageNum: this.state.pageNum + 1});
+        this.updateNews();
+    }
+    
     render() {
         return (
+            <>
             <div className="container my-4">
-                <h2>Top Headlines</h2>
-                <div className=" row" >
-                    {this.state.articles.map((element)=>{
-                        return  <div className="col-md-4 my-4">
-                                    <NewsItem title={element.title.split(0, 25)} discription={element.description.split(0, 48)} imageUrl={element.urlToImage} url={element.url} />
-                                </div> 
+                <h2 className='text-center mb-4'>{`NewsMeow - Top ${this.props.category} Headlines`}</h2>
+                {this.state.loading && <Spinner />}
+                <div className="row" >
+                    {this.state.articles.map((element) => {
+                        return <div className="col-md-4 my-2" key={element.url}>
+                            <NewsItem title={element.title ? element.title : ""} discription={element.description ? element.description.split(0, 48) : ""} imageUrl={element.urlToImage} url={element.url} date={element.publishedAt} source={element.source.name} author={element.author? element.author:"Unknown"}/>
+                        </div>
                     })
-                }
-
+                    }
+                </div>
+                <div className='d-flex justify-content-between align-items-center'>
+                    <button type="button" disabled={this.state.pageNum <= 1} onClick={this.handlePrevClick} className="btn btn-dark">&larr; Previous</button>
+                    <p className='mb-0'>Page {this.state.pageNum}</p>
+                    <button type="button" disabled={this.state.pageNum + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} onClick={this.handleNextClick} className="btn btn-dark">Next &rarr;</button>
                 </div>
             </div>
+            </>
         )
     }
 }

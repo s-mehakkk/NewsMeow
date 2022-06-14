@@ -1,17 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from "react-router-dom";
   
 
-export default class Navbar extends Component {
-    handleQuery = async()=>{
-        let query = await document.getElementById('querySearch').value;
-        console.log("in handleQuery")
-        //let query = "xx";
-        //alert(query);
-        //return (<Link className="nav-link" to='query'></Link>)
-        this.props.handleSearch(query);
-    }
-    render() {
+const Navbar = (props)=>{
+    // handleQuery = async()=>{
+    //     let query = await document.getElementById('querySearch').value;
+    //     console.log("in handleQuery")
+    //     //let query = "xx";
+    //     //alert(query);
+    //     //return (<Link className="nav-link" to='query'></Link>)
+    //     this.props.handleSearch(query);
+    // }
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top ">
                 <div className="container-fluid">
@@ -29,16 +28,20 @@ export default class Navbar extends Component {
                             <li className="nav-item"><Link className="nav-link" to="/science">science</Link></li>
                             <li className="nav-item"><Link className="nav-link" to="/sports">sports</Link></li>
                             <li className="nav-item"><Link className="nav-link" to="/technology">technology</Link></li>
+                            <li className="nav-item"><Link className="nav-link" to="/query">search</Link></li>
+                            
                         </ul>
                         <form className="d-flex">
-                            <input className="form-control me-2" id="querySearch"  placeholder="Search" type="search" aria-label="Search" />
-                            <button className="btn btn-outline-success" type="submit" >Search</button>
+                            <input className="form-control me-2" id="querySearch" onChange={event => props.setQuery(event.target.value)}  placeholder="Search" type="search" aria-label="Search" />
+                            <span className="nav-item"><Link className="nav-link" to="/query">search</Link></span>
                         </form>
                     </div>
                 </div>
             </nav>
         )
     }
-}
-// type="search"
-// type="submit"
+    export default Navbar;
+
+    //<button className="btn btn-outline-success"  type="submit" >Search</button>
+    // type="search" 
+// type="submit" onClick={()=>{<Link className="nav-link" to="/query">technology</Link>}}

@@ -61,15 +61,15 @@ const App= ()=> {
           />
           <Navbar setQuery={setQuery}/>
           <Routes>
-            <Route exact path="/" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="general" country="in" category="general" />} />
-            <Route exact path="/business" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="business" country="in" category="business" />} />
-            <Route exact path="/entertainment" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="entertainment" country="in" category="entertainment" />} />
-            <Route exact path="/" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="general" country="in" category="general" />} />
-            <Route exact path="/health" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="health" country="in" category="health" />} />
-            <Route exact path="/science" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="science" country="in" category="science" />} />
-            <Route exact path="/sports" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="sports" country="in" category="sports" />} />
-            <Route exact path="/technology" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="technology" country="in" category="technology" />} />
-            <Route exact path="/query" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key={query} country="in" query={query} />} />
+            <Route exact path="/" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="general" country="country=in" category="general" />} />
+            <Route exact path="/business" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="business" country="country=in" category="business" />} />
+            <Route exact path="/entertainment" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="entertainment" country="country=in" category="entertainment" />} />
+            <Route exact path="/" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="general" country="country=in" category="general" />} />
+            <Route exact path="/health" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="health" country="country=in" category="health" />} />
+            <Route exact path="/science" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="science" country="country=in" category="science" />} />
+            <Route exact path="/sports" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="sports" country="country=in" category="sports" />} />
+            <Route exact path="/technology" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key="technology" country="country=in" category="technology" />} />
+            <Route exact path="/query" element={<NewsComponent setProgress={setProgress} pageSize={pageSize} apiKey={apiKey} key={query} country="country=in" query={query} />} />
             {/* check url-- `https://newsapi.org/v2/top-headlines?country=&apiKey=27d30c75a2ca42f3a20964c3b8348172&category=&pageSize=6&page=1&q= */}
             {/* '90bd313746614e5ab3e4e719901420cb' 
             27d30c75a2ca42f3a20964c3b8348172*/}

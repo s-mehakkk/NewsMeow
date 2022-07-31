@@ -11,6 +11,7 @@ const [loading, setLoading] = useState(false);
 const [pageNum, setPageNum] = useState(1);
 const [totalResults, setTotalResults] = useState(0)
 
+
     const updateNews = async () => {
         props.setProgress(10);
         let url = `https://newsapi.org/v2/top-headlines?${props.country}&apiKey=${props.apiKey}&category=${props.category}&pageSize=${props.pageSize}&page=${pageNum}&q=${props.query}`;
@@ -31,7 +32,8 @@ const [totalResults, setTotalResults] = useState(0)
 
     useEffect(() => {
       updateNews();
-      document.title = `${capitalizeFirstLetter(props.category)} - NewsMeow`;
+      document.title = `${props.category} - NewsMeow`;
+    //   document.body.style.backgroundColor = "red";
       // eslint-disable-next-line
     }, [])
     
@@ -53,7 +55,7 @@ const [totalResults, setTotalResults] = useState(0)
         return (
             <>
                 <div className="container my-4 mt-5">
-                    <h2 className='text-center mb-3'>{`NewsMeow - Top ${props.category} Headlines`}</h2>
+                    <h2 className='text-center mb-5 mt-4 addedFont'>{`Top ${props.category} Headlines`}</h2>
                     {loading && <Spinner />}
                     <InfiniteScroll
                         dataLength={articles.length}
